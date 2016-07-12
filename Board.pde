@@ -1,18 +1,28 @@
-AbstractKoma getSelectedKoma() {
-    for (AbstractKoma k : komaArray) {
-      if (k.kStat.selected) return k;
-    }
-    return null;
+class Board {
+  BaseArea bArea;
+  InfoArea iArea;
+  MochigomaArea[] mArea = new MochigomaArea[2];
+
+  Board(){
+    bArea = new BaseArea(1,0,4,3);
+    iArea = new InfoArea(1,3,4,1);
+    mArea[0] = new MochigomaArea(0,0,1,4);
+    mArea[1] = new MochigomaArea(5,0,1,4);
   }
 
-  void select(int x, int y) {
-    AbstractKoma koma = this.getKomaFromPlaceByTeam(x, y, gs.turn);
-    if (koma != null) koma.kStat.selected=true;
+  void draw(){
+    bArea.draw();
+    mArea[0].draw();
+    mArea[1].draw();
+    iArea.draw();
   }
 
-  AbstractKoma getKomaFromPlaceByTeam(int x, int y, int team) {
-    for (AbstractKoma k : this.komaArray) {
-      if (team==k.team && x == k.x && y == k.y && k.kStat.active) return k;
+void select(int x, int y){
+    AbstractKoma koma = komaList.getSelectedKoma();
+    if(koma==null){
+      komaList.select(x,y);
+    }else{
+      koma.kStat.selected=false;
     }
-    return null;
   }
+}
